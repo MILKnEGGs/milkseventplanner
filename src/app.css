@@ -1,0 +1,935 @@
+/* App-specific pieces: event cards, section tabs, guest rows and RSVP colours, checklists, money and the day-of screen. */
+
+.center {
+  text-align: center;
+}
+
+/* Room to scroll the last row clear of the floating button. */
+.page {
+  padding-bottom: calc(160px + env(safe-area-inset-bottom));
+}
+
+.stack.tight {
+  gap: 8px;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+div.field {
+  display: grid;
+  gap: 8px;
+  font-weight: 700;
+}
+
+div.field > span:first-child {
+  font-size: 0.9rem;
+}
+
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  justify-self: start;
+  padding: 6px 2px;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.plain-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.none {
+  margin: 0;
+  padding: 0 4px;
+}
+
+.sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.group-head {
+  font-size: 1rem;
+  padding: 0 4px;
+}
+
+.warn-text {
+  color: var(--amber);
+}
+
+.sheet-actions {
+  position: sticky;
+  bottom: -18px;
+  margin: 4px -16px -18px;
+  padding: 10px 16px calc(14px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Chips, pills, tags ---------- */
+
+.chip.small-chip {
+  min-height: 36px;
+  padding: 3px 12px;
+  font-size: 0.9rem;
+}
+
+.chip .count {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c) 16%, transparent);
+  color: var(--c);
+  font-weight: 800;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.pill.small {
+  padding: 2px 9px;
+  font-size: 0.78rem;
+}
+
+:root:not([data-theme='dark']) .pill {
+  color: color-mix(in srgb, var(--c) 82%, black);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.tag.warn {
+  background: color-mix(in srgb, var(--amber) 18%, transparent);
+  color: var(--amber);
+}
+
+.banner-btn {
+  width: 100%;
+  border: 0;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.banner-btn strong {
+  color: var(--accent);
+}
+
+/* ---------- Home: event cards ---------- */
+
+.ecard {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.08s;
+}
+
+.ecard:active {
+  transform: scale(0.985);
+}
+
+.ebadge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 17px;
+  background: var(--accent-soft);
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.etext {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.ename {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.emeta {
+  font-size: 0.92rem;
+}
+
+.when {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  min-width: 52px;
+  padding: 6px 8px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: center;
+}
+
+.when strong {
+  font-family: var(--display);
+  font-size: 1.45rem;
+  line-height: 1;
+  color: var(--text);
+}
+
+.when.soon {
+  background: var(--pop);
+  color: var(--on-pop);
+}
+
+.when.soon strong {
+  color: var(--on-pop);
+}
+
+.when.now {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.when.now strong {
+  color: var(--on-accent);
+  font-size: 1rem;
+}
+
+.past {
+  opacity: 0.8;
+}
+
+.empty.hello h2 {
+  font-size: 1.6rem;
+}
+
+.empty.hello .big-emoji {
+  font-size: 4rem;
+}
+
+.rsvpbar {
+  display: flex;
+  gap: 2px;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 2px 0;
+}
+
+.rsvpbar span {
+  min-width: 4px;
+}
+
+/* ---------- Event page: section tabs ---------- */
+
+.sections {
+  position: sticky;
+  top: calc(62px + env(safe-area-inset-top));
+  z-index: 15;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.sections-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 8px 10px;
+}
+
+.sections-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.sections a {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 38px;
+  padding: 4px 13px;
+  border-radius: 999px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.sections a.on {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.sections .count {
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.sections a.on .count {
+  background: rgb(255 255 255 / 25%);
+  color: inherit;
+}
+
+/* ---------- Overview ---------- */
+
+.hero-card {
+  display: grid;
+  gap: 8px;
+  text-align: center;
+  justify-items: center;
+  background-color: var(--surface);
+  background-image:
+    radial-gradient(circle at 6% 12%, #ffc93c 0 4px, transparent 4.5px),
+    radial-gradient(circle at 16% 30%, #ff7aa5 0 3px, transparent 3.5px),
+    radial-gradient(circle at 90% 10%, #7fe0d0 0 4px, transparent 4.5px),
+    radial-gradient(circle at 95% 34%, #ffc93c 0 3px, transparent 3.5px),
+    radial-gradient(circle at 8% 86%, #7fe0d0 0 3px, transparent 3.5px),
+    radial-gradient(circle at 92% 88%, #ff7aa5 0 4px, transparent 4.5px);
+}
+
+.hero-card h2 {
+  font-size: 1.55rem;
+}
+
+.hero-card .row {
+  justify-content: center;
+}
+
+.hero-emoji {
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+.countdown-big {
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--pop);
+  color: var(--on-pop);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.countdown-big strong {
+  font-size: 1.3rem;
+}
+
+.countdown-big.past {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.facts {
+  display: grid;
+  gap: 4px;
+  margin: 4px 0;
+}
+
+.facts div {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.facts dt,
+.facts dd {
+  margin: 0;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(68px, 1fr));
+  gap: 8px;
+}
+
+.tile {
+  display: grid;
+  justify-items: center;
+  padding: 10px 4px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--c, var(--accent)) 12%, var(--surface));
+}
+
+.tile strong {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--c, var(--text));
+}
+
+:root:not([data-theme='dark']) .tile strong {
+  color: color-mix(in srgb, var(--c, var(--text)) 85%, black);
+}
+
+.tile span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.mini-task {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* ---------- Guests ---------- */
+
+.headcount {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+}
+
+.headcount > div {
+  display: grid;
+}
+
+.big-num {
+  font-family: var(--display);
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--st-yes);
+}
+
+.big-num.maybe {
+  font-size: 1.5rem;
+  color: var(--st-maybe);
+}
+
+.card.flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.grow + .grow,
+.card.flush > .trow + .trow,
+.card.flush > .trow + .add-row.inside {
+  border-top: 1px solid var(--border);
+}
+
+.grow-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 60px;
+  padding: 10px 14px;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.grow-main:active {
+  background: var(--surface-2);
+}
+
+.grow-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.quick {
+  display: flex;
+  gap: 6px;
+  padding: 0 14px 12px;
+}
+
+.quick button {
+  flex: 1;
+  min-height: 38px;
+  border: 1.5px solid color-mix(in srgb, var(--c) 40%, transparent);
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--c) 10%, transparent);
+  font-weight: 800;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.status-grid button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 6px 12px;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+.status-grid button:first-child {
+  grid-column: 1 / -1;
+}
+
+.status-grid button.on {
+  border-color: var(--c);
+  background: color-mix(in srgb, var(--c) 16%, var(--surface));
+}
+
+.st-emoji {
+  font-size: 1.3rem;
+}
+
+.card.soft {
+  background: var(--bg);
+  box-shadow: none;
+  padding: 12px 14px;
+}
+
+.title-input {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stepper-label {
+  flex: 1;
+  font-weight: 700;
+}
+
+.stepper button {
+  width: 44px;
+  height: 40px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 1.3rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.stepper button:disabled {
+  opacity: 0.35;
+}
+
+.stepper strong {
+  min-width: 28px;
+  text-align: center;
+  font-family: var(--display);
+  font-size: 1.25rem;
+}
+
+.preview-list {
+  display: grid;
+  gap: 4px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.pick-list {
+  display: grid;
+  gap: 2px;
+}
+
+.pick {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 6px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.pick > span {
+  display: grid;
+}
+
+.pick input,
+.toggle input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--accent);
+}
+
+/* ---------- Invitation ---------- */
+
+.seg.fill {
+  flex-wrap: nowrap;
+}
+
+.seg.fill button {
+  flex: 1;
+  padding: 4px 6px;
+  white-space: nowrap;
+}
+
+.invite-text {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.card-preview {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.rows {
+  display: grid;
+  gap: 8px;
+}
+
+.send-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.send-name {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+
+/* ---------- Details form ---------- */
+
+.emoji-btn {
+  flex: none;
+  width: 52px;
+  height: 48px;
+  border: 1.5px solid var(--border);
+  border-radius: 13px;
+  background: var(--accent-soft);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 4px;
+}
+
+.emoji-grid button {
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.emoji-grid button.on {
+  background: var(--accent-soft);
+  outline: 2px solid var(--accent);
+}
+
+/* ---------- Checklist rows (to-dos, food, expenses, schedule) ---------- */
+
+.add-row {
+  flex-wrap: nowrap;
+}
+
+.add-row.inside {
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--surface-2) 45%, var(--surface));
+}
+
+.add-row .btn {
+  flex: none;
+  padding: 8px 12px;
+}
+
+.trow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 8px 10px 8px 14px;
+}
+
+.trow-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.trow.done .bare,
+.trow.done .trow-text > span:first-child {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.check {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 2px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--on-accent);
+  cursor: pointer;
+}
+
+.check[aria-checked='true'] {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.bare {
+  width: 100%;
+  min-width: 0;
+  padding: 2px 0;
+  border: 0;
+  border-bottom: 1.5px solid transparent;
+  background: none;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.bare.small {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.bare:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+
+.due {
+  position: relative;
+  justify-self: start;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.due.late {
+  color: var(--amber);
+}
+
+/* The native date picker sits invisibly over the label, so tapping the text opens it. */
+.due input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+.remove-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.remove-btn:active {
+  background: var(--surface-2);
+}
+
+.input.slim {
+  min-height: 40px;
+  padding: 6px 10px;
+}
+
+.input.amount {
+  width: 96px;
+  flex: none;
+}
+
+.input.qty {
+  width: 92px;
+  flex: none;
+  font-size: 16px;
+}
+
+.input.time {
+  width: 116px;
+  flex: none;
+}
+
+.mini-select {
+  justify-self: start;
+  max-width: 100%;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface-2);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.money-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.money-input > span {
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.money-input.slim .input {
+  width: 88px;
+}
+
+.progress {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--accent), var(--pop));
+  transition: width 0.3s;
+}
+
+.progress.over span {
+  background: var(--red);
+}
+
+.diet-list {
+  margin: 0;
+  padding-left: 1.2em;
+  display: grid;
+  gap: 2px;
+}
+
+/* ---------- Day of ---------- */
+
+.checkin {
+  display: grid;
+  gap: 8px;
+}
+
+.checkin-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 10px 14px;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: left;
+  cursor: pointer;
+}
+
+.checkin-btn.on {
+  border-color: var(--green);
+  background: color-mix(in srgb, var(--green) 10%, var(--surface));
+}
+
+.ck {
+  font-size: 1.4rem;
+}
+
+/* ---------- Tab bar badge ---------- */
+
+.tab-ico {
+  position: relative;
+  display: inline-grid;
+}
+
+.dot {
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+}
+
+@media (max-width: 340px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+  .input.qty {
+    width: 76px;
+  }
+}
