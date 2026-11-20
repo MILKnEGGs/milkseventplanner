@@ -249,15 +249,21 @@ export async function drawCard(canvas: HTMLCanvasElement, e: PartyEvent, s: Sett
 
   const RULE_SPACE = 60;
   const total = blocks.reduce((n, b) => n + b.lines.length * b.lh + b.gapAfter, 0) + RULE_SPACE * 2;
-  let y = Math.max(170, (H - total) / 2);
+  // Long invitations shrink to stay inside the decorated border.
+  const AVAIL = H - 300;
+  const k = Math.min(1, AVAIL / total);
+  c.save();
+  c.translate(cx, (H - total * k) / 2);
+  c.scale(k, k);
+  let y = 0;
   blocks.forEach((b, i) => {
     if (i === rule || i === rsvpAt) {
       c.strokeStyle = look.rule;
       c.lineWidth = 4;
       c.lineCap = 'round';
       c.beginPath();
-      c.moveTo(cx - 90, y + RULE_SPACE / 2 - 10);
-      c.lineTo(cx + 90, y + RULE_SPACE / 2 - 10);
+      c.moveTo(-90, y + RULE_SPACE / 2 - 10);
+      c.lineTo(90, y + RULE_SPACE / 2 - 10);
       c.stroke();
       y += RULE_SPACE;
     }
@@ -265,10 +271,11 @@ export async function drawCard(canvas: HTMLCanvasElement, e: PartyEvent, s: Sett
     c.fillStyle = b.color;
     for (const line of b.lines) {
       y += b.lh;
-      c.fillText(line, cx, y - b.lh * 0.22);
+      c.fillText(line, 0, y - b.lh * 0.22);
     }
     y += b.gapAfter;
   });
+  c.restore();
 }
 
 export function canvasFile(canvas: HTMLCanvasElement, name: string): Promise<File> {

@@ -111,5 +111,7 @@
     <button class="btn danger" onclick={eraseAll}>Erase everything on this device</button>
   </section>
 
-  <p class="muted small center">Milk's Event Planner v{__APP_VERSION__} · made with 🎉</p>
+  <p class="muted small center">
+    Milk's Event Planner v{__APP_VERSION__} · made with 🎉 · <a href="https://milkneggs.github.io/pitch/milkseventplanner.html" target="_blank" rel="noopener">See what it does</a>
+  </p>
 </main>
